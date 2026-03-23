@@ -1,0 +1,157 @@
+/* ============================================
+   SRDC — main.js
+   AIチャットボット + スクロールアニメーション
+   ============================================ */
+
+/* ── Scroll Reveal ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── AI Chatbot ── */
+const QUICK_QUESTIONS = [
+  '初心者でも入れる？',
+  '活動日はいつ？',
+  '部費はいくら？',
+  '何班があるの？',
+];
+
+const BOT_SYSTEM_PROMPT = `あなたは芝浦工業大学のロボット開発サークル「SRDC（Shibaura Robotics Development Circle）」の公式AIアシスタントです。
+新入生や仮入部希望者からの質問に、フレンドリーかつ簡潔に答えてください。
+
+【SRDCについて】
+- 芝浦工業大学のロボット開発サークル
+- 活動内容：かわさきロボット、二足歩行ロボット（ROBO-ONE）、マイクロマウス、ライントレース
+- 活動日：週3〜4日
+- 部費：月額1,500円程度
+- 活動場所：芝浦キャンパス 部室
+- 入部条件：芝浦工業大学の学生であること（学年・専攻不問）
+- 仮入部：学番・名前・緊急連絡先を提出すれば仮入部可能。CAD・プログラミング講習あり
+- 体験会：申請不要。TwitterやDiscordで告知
+- バーチャル部室：Discordで運営中
+
+【スタンス】
+- 初心者でも大歓迎と伝える
+- 具体的な数字や情報は正確に
+- 分からないことは「詳しくは体験会や見学で聞いてみてください！」と案内する
+- 返答は3〜4文以内でコンパクトに
+- 絵文字を1〜2個使ってフレンドリーに`;
+
+let chatHistory = [];
+
+function $(id) { return document.getElementById(id); }
+
+function appendMsg(role, text) {
+  const wrap = document.createElement('div');
+  wrap.className = `chat-msg ${role}`;
+  const bubble = document.createElement('div');
+  bubble.className = 'chat-bubble';
+  bubble.textContent = text;
+  wrap.appendChild(bubble);
+  $('chat-messages').appendChild(wrap);
+  $('chat-messages').scrollTop = $('chat-messages').scrollHeight;
+  return bubble;
+}
+
+function showTyping() {
+  const wrap = document.createElement('div');
+  wrap.className = 'chat-msg bot';
+  wrap.id = 'typing-indicator';
+  wrap.innerHTML = '<div class="chat-typing"><span></span><span></span><span></span></div>';
+  $('chat-messages').appendChild(wrap);
+  $('chat-messages').scrollTop = $('chat-messages').scrollHeight;
+}
+
+function removeTyping() {
+  const t = $('typing-indicator');
+  if (t) t.remove();
+}
+
+async function sendMessage(text) {
+  if (!text.trim()) return;
+  $('chat-input').value = '';
+
+  // Hide quick buttons after first interaction
+  const qb = $('chat-quickbtns');
+  if (qb) qb.style.display = 'none';
+
+  appendMsg('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  showTyping();
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: BOT_SYSTEM_PROMPT,
+        messages: chatHistory,
+      }),
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text ?? 'すみません、少し問題が発生しました。直接TwitterやDiscordでお問い合わせください！';
+    removeTyping();
+    appendMsg('bot', reply);
+    chatHistory.push({ role: 'assistant', content: reply });
+  } catch {
+    removeTyping();
+    appendMsg('bot', '通信エラーが発生しました。TwitterやDiscordからお気軽にお問い合わせください！');
+  }
+}
+
+// Build chatbot HTML
+function initChat() {
+  // Floating button
+  const btn = document.createElement('button');
+  btn.id = 'ai-chat-btn';
+  btn.title = 'SRDCに質問する';
+  btn.innerHTML = '🤖';
+  document.body.appendChild(btn);
+
+  // Panel
+  const panel = document.createElement('div');
+  panel.id = 'ai-chat-panel';
+  panel.innerHTML = `
+    <div class="chat-header">
+      <div class="chat-header-icon">🤖</div>
+      <div class="chat-header-text">
+        <h4>SRDC AIアシスタント</h4>
+        <p>入部に関する質問はなんでも！</p>
+      </div>
+      <button class="chat-header-close" id="chat-close">✕</button>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-quickbtns" id="chat-quickbtns"></div>
+    <div class="chat-footer">
+      <input class="chat-input" id="chat-input" placeholder="質問を入力..." type="text">
+      <button class="chat-send" id="chat-send">送信</button>
+    </div>`;
+  document.body.appendChild(panel);
+
+  // Initial bot message
+  setTimeout(() => {
+    appendMsg('bot', 'こんにちは！SRDCへの入部や活動についての質問、なんでも聞いてください 🙌');
+    // Quick buttons
+    const qb = $('chat-quickbtns');
+    QUICK_QUESTIONS.forEach(q => {
+      const b = document.createElement('button');
+      b.className = 'chat-quick';
+      b.textContent = q;
+      b.onclick = () => sendMessage(q);
+      qb.appendChild(b);
+    });
+  }, 400);
+
+  // Toggle
+  btn.onclick = () => panel.classList.toggle('open');
+  $('chat-close').onclick = () => panel.classList.remove('open');
+
+  // Send
+  $('chat-send').onclick = () => sendMessage($('chat-input').value);
+  $('chat-input').onkeydown = e => { if (e.key === 'Enter') sendMessage($('chat-input').value); };
+}
+
+document.addEventListener('DOMContentLoaded', initChat);
