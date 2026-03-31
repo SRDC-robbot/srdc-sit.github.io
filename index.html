@@ -125,6 +125,7 @@ nav a:hover::after { width: 100%; }
 .schedule-day { font-family: var(--font-h); font-size: 38px; font-weight: 800; line-height: 1; color: var(--ink); }
 .schedule-weekday { font-size: 11px; color: var(--muted); font-weight: 300; }
 .schedule-title { font-family: var(--font-h); font-size: 16px; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 5px; }
+.schedule-time { font-size: 0.9rem; color: var(--muted); margin-bottom: 4px; }
 .schedule-desc { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
 .badge { font-family: var(--font-h); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 6px 14px; border-radius: 999px; white-space: nowrap; text-transform: uppercase; }
 .badge-free { background: #e8f5e9; color: #2e7d32; }
@@ -330,94 +331,80 @@ footer { background: var(--ink); padding: 40px 48px; border-top: 1px solid rgba(
       <h2>説明会・<span>イベント日程</span></h2>
       <p class="section-lead">2026年度の新入生向けイベントです。まずは気軽に顔を出してみてください。</p>
     </div>
-<div class="schedule-list stagger">
-  <style>
-    .schedule-time {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-  </style>
-
-  <!-- 4/3 1回目 -->
-  <div class="schedule-item">
-    <div class="schedule-date">
-      <div class="schedule-month">APR</div>
-      <div class="schedule-day">3</div>
-      <div class="schedule-weekday">金曜日</div>
+    <div class="schedule-list stagger">
+      <!-- 4/3 1回目 -->
+      <div class="schedule-item">
+        <div class="schedule-date">
+          <div class="schedule-month">APR</div>
+          <div class="schedule-day">3</div>
+          <div class="schedule-weekday">金曜日</div>
+        </div>
+        <div>
+          <div class="schedule-title">説明会</div>
+          <div class="schedule-time">16:15〜17:00</div>
+          <div class="schedule-desc">活動内容・班紹介・仮入部の流れを説明します。気軽に参加してください！</div>
+        </div>
+        <span class="badge badge-free">参加無料</span>
+      </div>
+      <!-- 4/3 2回目 -->
+      <div class="schedule-item">
+        <div class="schedule-date">
+          <div class="schedule-month">APR</div>
+          <div class="schedule-day">3</div>
+          <div class="schedule-weekday">金曜日</div>
+        </div>
+        <div>
+          <div class="schedule-title">説明会</div>
+          <div class="schedule-time">17:15〜18:00</div>
+          <div class="schedule-desc">活動内容・班紹介・仮入部の流れを説明します。気軽に参加してください！</div>
+        </div>
+        <span class="badge badge-free">参加無料</span>
+      </div>
+      <!-- 4/6 -->
+      <div class="schedule-item">
+        <div class="schedule-date">
+          <div class="schedule-month">APR</div>
+          <div class="schedule-day">6</div>
+          <div class="schedule-weekday">月曜日</div>
+        </div>
+        <div>
+          <div class="schedule-title">操縦体験</div>
+          <div class="schedule-time">13:00〜17:00</div>
+          <div class="schedule-desc">2号館 2201教室</div>
+        </div>
+        <span class="badge badge-free">参加無料</span>
+      </div>
+      <!-- 4/7 -->
+      <div class="schedule-item">
+        <div class="schedule-date">
+          <div class="schedule-month">APR</div>
+          <div class="schedule-day">7</div>
+          <div class="schedule-weekday">火曜日</div>
+        </div>
+        <div>
+          <div class="schedule-title">操縦体験</div>
+          <div class="schedule-time">13:00〜17:00</div>
+          <div class="schedule-desc">2号館 2201教室</div>
+        </div>
+        <span class="badge badge-free">参加無料</span>
+      </div>
+      <!-- 4/8 -->
+      <div class="schedule-item">
+        <div class="schedule-date">
+          <div class="schedule-month">APR</div>
+          <div class="schedule-day">8</div>
+          <div class="schedule-weekday">水曜日</div>
+        </div>
+        <div>
+          <div class="schedule-title">説明会・操縦体験</div>
+          <div class="schedule-time">13:00〜15:00</div>
+          <div class="schedule-desc">2号館 2103教室 / オンライン同時開催</div>
+        </div>
+        <span class="badge badge-free">参加無料</span>
+      </div>
+      <p class="schedule-note">※ 日程は変更になる場合があります。最新情報はオープンチャットでご確認ください。</p>
     </div>
-    <div>
-      <div class="schedule-title">説明会</div>
-      <div class="schedule-time">16:15〜17:00</div>
-      <div class="schedule-desc">活動内容・班紹介・仮入部の流れを説明します。気軽に参加してください！</div>
-    </div>
-    <span class="badge badge-free">参加無料</span>
   </div>
-
-  <!-- 4/3 2回目 -->
-  <div class="schedule-item">
-    <div class="schedule-date">
-      <div class="schedule-month">APR</div>
-      <div class="schedule-day">3</div>
-      <div class="schedule-weekday">金曜日</div>
-    </div>
-    <div>
-      <div class="schedule-title">説明会</div>
-      <div class="schedule-time">17:15〜18:00</div>
-      <div class="schedule-desc">活動内容・班紹介・仮入部の流れを説明します。気軽に参加してください！</div>
-    </div>
-    <span class="badge badge-free">参加無料</span>
-  </div>
-
-  <!-- 4/6 -->
-  <div class="schedule-item">
-    <div class="schedule-date">
-      <div class="schedule-month">APR</div>
-      <div class="schedule-day">6</div>
-      <div class="schedule-weekday">月曜日</div>
-    </div>
-    <div>
-      <div class="schedule-title">操縦体験</div>
-      <div class="schedule-time">13:00〜17:00</div>
-      <div class="schedule-desc">2号館 2201教室</div>
-    </div>
-    <span class="badge badge-free">参加無料</span>
-  </div>
-
-  <!-- 4/7 -->
-  <div class="schedule-item">
-    <div class="schedule-date">
-      <div class="schedule-month">APR</div>
-      <div class="schedule-day">7</div>
-      <div class="schedule-weekday">火曜日</div>
-    </div>
-    <div>
-      <div class="schedule-title">操縦体験</div>
-      <div class="schedule-time">13:00〜17:00</div>
-      <div class="schedule-desc">2号館 2201教室</div>
-    </div>
-    <span class="badge badge-free">参加無料</span>
-  </div>
-
-  <!-- 4/8 -->
-  <div class="schedule-item">
-    <div class="schedule-date">
-      <div class="schedule-month">APR</div>
-      <div class="schedule-day">8</div>
-      <div class="schedule-weekday">水曜日</div>
-    </div>
-    <div>
-      <div class="schedule-title">説明会・操縦体験</div>
-      <div class="schedule-time">13:00〜15:00</div>
-      <div class="schedule-desc">2号館 2103教室 / オンライン同時開催</div>
-    </div>
-    <span class="badge badge-free">参加無料</span>
-  </div>
-
-  <p class="schedule-note">※ 日程は変更になる場合があります。最新情報はオープンチャットでご確認ください。</p>
-</div>
-
-    
 </section>
 <section class="section join-section" id="join">
   <div class="container">
